@@ -1,24 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I have a question... 👉👈</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="card-container">
-        <!-- Start with a cute default image (using the first happy hug picture as default) -->
-        <img id="gifDisplay" src="image_122-Zf.png" alt="Cute Bear Interaction">
-        
-        <h1 id="questionText">I love you very much... Do you love me? 🥺</h1>
-        
-        <div class="btn-group">
-            <button id="yesBtn">Yes! 💖</button>
-            <button id="noBtn">No 😢</button>
-        </div>
-    </div>
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const questionText = document.getElementById('questionText');
+const gifDisplay = document.getElementById('gifDisplay');
 
-    <script src="app.js"></script>
-</body>
-</html>
+let noClickCount = 0;
+
+function flyAway() {
+    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 60) + 30;
+    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 60) + 30;
+    
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+}
+
+noBtn.addEventListener('mouseover', flyAway);
+noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault(); 
+    flyAway();
+});
+
+// If he manages to click "No" (switches to the sad image)
+noBtn.addEventListener('click', () => {
+    noClickCount++;
+    
+    gifDisplay.src = "image__em5_W.png"; 
+    
+    if (noClickCount === 1) {
+        questionText.innerHTML = "Think again... 🥺👉👈";
+    } else if (noClickCount >= 2) {
+        questionText.innerHTML = "Pleaseee think again!!! 😭😭😭💔";
+    }
+});
+
+// When he clicks Yes! (switches to the happy hugging image)
+yesBtn.addEventListener('click', () => {
+    questionText.innerHTML = "Yayyy! I love you too!! 💖🥰✨";
+    
+    gifDisplay.src = "image_122-Zf.png"; 
+    
+    noBtn.style.display = 'none';
+});
